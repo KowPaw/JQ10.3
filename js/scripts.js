@@ -64,12 +64,14 @@ $(function(){
 	});
 
 	$('#pic1').click(function(){
-		do {
-			carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
-			circle++;
-			}
-		while (circle <= 4);
-		circle = 0;
+		if (circle > 0) {
+			do {
+				carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
+				circle++;
+				}
+			while (circle <= 4);
+			circle = 0;
+		}
 		circleList.css('background', 'none');
 		$(this).css('background', 'white');
 		clearInterval(start);
