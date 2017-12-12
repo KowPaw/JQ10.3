@@ -2,10 +2,11 @@ $(function(){
 	var carouselList = $('#carousel ul');
 	var circleList = $('#carousel ol li');
 	var circle = 0;
-	var start;
+	var slideTimer;
+	var slideLength = circleList.length;
 
 	function startSlide() {
-		start = setInterval(changeSlide, 3000);
+		slideTimer = setInterval(changeSlide, 3000);
 	}
 
 	function changeSlide() {
@@ -20,9 +21,17 @@ $(function(){
 		carouselList.css({marginLeft:0});
 	}
 
+	function reverseSlide() {
+		var firstItem = carouselList.find('li:first');
+		var lastItem = carouselList.find('li:last');
+		firstItem.before(lastItem);
+		carouselList.css({marginLeft:-400});
+		carouselList.animate({'marginLeft':0}, 500);
+	}
+
 	function changeCircle() {
-		circleList.css('background', 'none');
-		if (circle < 4) {
+		circleList.eq(circle).css('background', 'none');
+		if (circle < slideLength - 1) {
 			circleList.eq(circle + 1).css('background', 'white');
 			circle++;
 		}
@@ -32,110 +41,93 @@ $(function(){
 		}
 	}
 
-
-	circleList.eq(0).css('background', 'white');
-	startSlide();
-
-	
-	$('.right-control').click(function(){
-		circleList.css('background', 'none');
-		changeCircle();
-		carouselList.animate({'marginLeft':-400}, 500, moveFirstSlide);
-		clearInterval(start);
-		startSlide();
-	});
-	$('.left-control').click(function(){
-		circleList.css('background', 'none');
+	function reverseCircle () {
+		circleList.eq(circle).css('background', 'none');
 		if (circle == 0) {
-			circle = 4;
+			circle = slideLength - 1;
 			circleList.eq(circle).css('background', 'white');
 		}
 		else {
 			circle--;
 			circleList.eq(circle).css('background', 'white');
 		}
-		var firstItem = carouselList.find('li:first');
-		var lastItem = carouselList.find('li:last');
-		firstItem.before(lastItem);
-		carouselList.css({marginLeft:-400});
-		carouselList.animate({'marginLeft':0}, 500);
-		clearInterval(start);
+	}
+
+	function jumpSlide () {
+		do {
+			carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
+			circle++;
+			}
+		while (circle <= slideLength - 1);
+		circle = 0;
+	}
+
+	function restart () {
+		circleList.eq(circle).css('background', 'white');
+		clearInterval(slideTimer);
+		startSlide();
+	}
+
+
+	circleList.eq(0).css('background', 'white');
+	startSlide();
+
+	
+	$('.right-control').click(function(){
+		changeSlide();
+		clearInterval(slideTimer);
+		startSlide();
+	});
+	$('.left-control').click(function(){
+		reverseCircle();
+		reverseSlide();
+		clearInterval(slideTimer);
 		startSlide();
 	});
 
 	$('#pic1').click(function(){
+		circleList.eq(circle).css('background', 'none');
 		if (circle > 0) {
-			do {
-				carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
-				circle++;
-				}
-			while (circle <= 4);
-			circle = 0;
+			jumpSlide();
 		}
-		circleList.css('background', 'none');
-		$(this).css('background', 'white');
-		clearInterval(start);
-		startSlide();
+		restart();
 	});
 	$('#pic2').click(function(){
+		circleList.eq(circle).css('background', 'none');
 		if (circle > 1) {
-			do {
-				carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
-				circle++;
-				}
-			while (circle <= 4);
-			circle = 0;
+			jumpSlide();
 		}
 		for (circle; circle < 1; circle++) {
 			carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
 		}
-		circleList.css('background', 'none');
-		$(this).css('background', 'white');
-		clearInterval(start);
-		startSlide();
+		restart();
 	});
 	$('#pic3').click(function(){
+		circleList.eq(circle).css('background', 'none');
 		if (circle > 2) {
-			do {
-				carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
-				circle++;
-				}
-			while (circle <= 4);
-			circle = 0;
+			jumpSlide();
 		}
 		for (circle; circle < 2; circle++) {
 			carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
 		}
-		circleList.css('background', 'none');
-		$(this).css('background', 'white');
-		clearInterval(start);
-		startSlide();
+		restart();
 	});
 	$('#pic4').click(function(){
+		circleList.eq(circle).css('background', 'none');
 		if (circle > 3) {
-			do {
-				carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
-				circle++;
-				}
-			while (circle <= 4);
-			circle = 0;
+			jumpSlide();
 		}
 		for (circle; circle < 3; circle++) {
 			carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
 		}
-		circleList.css('background', 'none');
-		$(this).css('background', 'white');
-		clearInterval(start);
-		startSlide();
+		restart();
 	});
 	$('#pic5').click(function(){
+		circleList.eq(circle).css('background', 'none');
 		for (circle; circle < 4; circle++) {
 			carouselList.animate({'marginLeft':-400}, 10, moveFirstSlide);
 		}
-		circleList.css('background', 'none');
-		$(this).css('background', 'white');
-		clearInterval(start);
-		startSlide();
+		restart();
 	});
 
 });
