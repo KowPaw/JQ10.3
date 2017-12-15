@@ -1,6 +1,61 @@
 $(function(){
 	var carouselList = $('#carousel ul');
 	var circleList = $('#carousel ol li');
+	var realIndex = 0;
+	var slideTimer;
+	var slideLength = circleList.length;
+
+	function changeSlide(index) {
+		realIndex = index;
+		carouselList.animate({'marginLeft': -400 * index}, 500);
+		circleList.removeClass('point');
+		circleList.eq(index).addClass('point');
+	}
+
+	function autoChangeSlide() {
+		var index = (realIndex >= slideLength - 1) ? 0 : realIndex + 1;
+		changeSlide(index);
+	}
+
+		function startSlide() {
+		slideTimer = setInterval(autoChangeSlide, 3000);
+	}
+
+	circleList.click(function(){
+		var index = $(this).index();
+		clearInterval(slideTimer);
+		changeSlide(index);
+		startSlide();
+	});
+
+	$('.right-control').click(function(){
+		var index = (realIndex >= slideLength - 1) ? 0 : realIndex + 1;
+		clearInterval(slideTimer);
+		changeSlide(index);
+		startSlide();
+	});
+
+	$('.left-control').click(function(){
+		var index = (realIndex == 0) ? slideLength - 1 : realIndex - 1;
+		clearInterval(slideTimer);
+		changeSlide(index);
+		startSlide();
+	});
+
+	changeSlide(realIndex);
+	startSlide();
+
+});
+
+
+
+
+
+
+// old version
+/*$(function(){
+	var carouselList = $('#carousel ul');
+	var circleList = $('#carousel ol li');
 	var circle = 0;
 	var slideTimer;
 	var slideLength = circleList.length;
@@ -130,4 +185,4 @@ $(function(){
 		restart();
 	});
 
-});
+});*/

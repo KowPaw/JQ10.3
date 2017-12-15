@@ -30,6 +30,9 @@
 			height: 10px;
 			cursor: pointer;
 		}
+		ol li.point {
+			background: white;
+		}
 	ul {
 		padding: 0;
 		margin: 0;
@@ -41,6 +44,7 @@
 			list-style-type: none;
 			float: left;
 		}
+
 	.left-control {
 		position: absolute;
 		text-align: center;
