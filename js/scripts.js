@@ -10,6 +10,8 @@ $(function(){
 		carouselList.animate({'marginLeft': -400 * index}, 500);
 		circleList.removeClass('point');
 		circleList.eq(index).addClass('point');
+		clearInterval(slideTimer);
+		slideTimer = setInterval(autoChangeSlide, 3000);
 	}
 
 	function autoChangeSlide() {
@@ -17,34 +19,19 @@ $(function(){
 		changeSlide(index);
 	}
 
-		function startSlide() {
-		slideTimer = setInterval(autoChangeSlide, 3000);
-	}
-
 	circleList.click(function(){
 		var index = $(this).index();
-		clearInterval(slideTimer);
 		changeSlide(index);
-		startSlide();
 	});
 
-	$('.right-control').click(function(){
-		var index = (realIndex >= slideLength - 1) ? 0 : realIndex + 1;
-		clearInterval(slideTimer);
-		changeSlide(index);
-		startSlide();
-	});
-
+	$('.right-control').click(autoChangeSlide);
+	
 	$('.left-control').click(function(){
 		var index = (realIndex == 0) ? slideLength - 1 : realIndex - 1;
-		clearInterval(slideTimer);
 		changeSlide(index);
-		startSlide();
 	});
 
 	changeSlide(realIndex);
-	startSlide();
-
 });
 
 
